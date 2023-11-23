@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Learning App</title>
+
+    <!-- Adicione o link para o Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Machine Learning App</h1>
+
+    <form action="/result" method="post">
+        <div class="form-group">
+            <label for="dataset">Escolha um dataset:</label>
+            <select class="form-control" name="dataset" id="dataset">
+                <option value="Iris">Iris</option>
+                <option value="Breast Cancer">Breast Cancer</option>
+                <option value="Titanic">Titanic</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="classificador">Escolha um classificador:</label>
+            <select class="form-control" name="classificador" id="classificador">
+                <option value="SVM">SVM</option>
+                <option value="KNN">KNN</option>
+                <option value="MLP">MLP</option>
+                <option value="Decision Tree">Decision Tree</option>
+                <option value="Random Forest">Random Forest</option>
+            </select>
+        </div>
+
+        <!-- Adicione os sliders correspondentes aos parâmetros do classificador selecionado -->
+        <div id="slider-container"></div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<!-- Adicione o script do Bootstrap e o jQuery no final do corpo do documento -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- Adicione um script para manipulação dinâmica dos sliders -->
+<script>
+    $('#classificador').change(function () {
+        var selectedClassifier = $(this).val();
+        var sliderContainer = $('#slider-container');
+
+        // Limpe os sliders existentes
+        sliderContainer.empty();
+
+        // Adicione os sliders correspondentes ao classificador selecionado
+        if (selectedClassifier === 'SVM') {
+            sliderContainer.append('<label for="C">C (SVM Parameter):</label>');
+            sliderContainer.append('<input type="range" class="form-control" name="C" min="0.1" max="2.0" step="0.1" value="1.0">');
+            sliderContainer.append('<span id="C-value">1.0</span>');
+
+        } else if (selectedClassifier === 'KNN') {
+            sliderContainer.append('<label for="K">K (KNN Parameter):</label>');
+            sliderContainer.append('<input type="range" class="form-control" name="K" min="1" max="10" step="1" value="1">');
+            sliderContainer.append('<span id="K-value">1</span>');
+
+        } else if (selectedClassifier === 'MLP') {
+            sliderContainer.append('<label for="hidden_layer_sizes">Hidden Layer Sizes (MLP Parameter):</label>');
+            sliderContainer.append('<input type="range" class="form-control" name="hidden_layer_sizes" value="100">');
+            sliderContainer.append('<span id="hidden_layer_sizes-value">1</span>');
+
+        } else if (selectedClassifier === 'Decision Tree') {
+            sliderContainer.append('<label for="max_depth">Max Depth (Decision Tree Parameter):</label>');
+            sliderContainer.append('<input type="range" class="form-control" name="max_depth" value="2">');
+            sliderContainer.append('<span id="max_depth-value">1</span>');
+
+        } else if (selectedClassifier === 'Random Forest') {
+            sliderContainer.append('<label for="max_depth">Max Depth (Random Forest Parameter):</label>');
+            sliderContainer.append('<input type="range" class="form-control" name="max_depth" value="2">');
+            sliderContainer.append('<span id="max_depth-value">1</span>');
+
+            sliderContainer.append('<label for="n_estimators">Number of Estimators (Random Forest Parameter):</label>');
+            sliderContainer.append('<input type="range" class="form-control" name="n_estimators" value="1">');
+            sliderContainer.append('<span id="n_estimators-value">1</span>');
+        }
+
+        // Adicione o evento de alteração para atualizar o contador
+        $('input[type="range"]').on('input', function () {
+            var sliderValue = $(this).val();
+            var sliderId = $(this).attr('name') + '-value';
+            $('#' + sliderId).text(sliderValue);
+        });
+    });
+</script>
+</body>
+</html>
